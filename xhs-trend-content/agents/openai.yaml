@@ -1,0 +1,4 @@
+interface:
+  display_name: "小红书趋势采集与内容创作"
+  short_description: "采集近期高互动趋势并依据真实产品资料生成小红书内容草稿"
+  default_prompt: "使用 $xhs-trend-content 根据我的品类与产品资料采集趋势并生成内容草稿。"
