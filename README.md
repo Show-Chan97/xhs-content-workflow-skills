@@ -6,9 +6,9 @@
 
 | Skill | 用途 |
 |---|---|
-| `xhs-trend-content` | 采集近期高互动趋势，根据已确认的产品资料生成内容草稿 |
-| `xhs-daily-monitor` | 每日监控指定主题，去重整理后追加到飞书日报 |
-| `xhs-competitor-research` | 分批采集公开笔记，完成竞品分层、需求和内容策略研究 |
+| [`xhs-trend-content`](xhs-trend-content/README.md) | 采集近期高互动趋势，根据已确认的产品资料生成内容草稿 |
+| [`xhs-daily-monitor`](xhs-daily-monitor/README.md) | 每日监控指定主题，去重整理后追加到飞书日报 |
+| [`xhs-competitor-research`](xhs-competitor-research/README.md) | 分批采集公开笔记，完成竞品分层、需求和内容策略研究 |
 
 三个 Skill 互相独立，可以只安装其中一个，也可以全部安装。
 
