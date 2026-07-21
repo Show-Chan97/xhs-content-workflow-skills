@@ -1,0 +1,4 @@
+interface:
+  display_name: "小红书笔记数据诊断"
+  short_description: "基于投流、笔记与成交数据定位漏斗断点并给出可执行的单一行动建议"
+  default_prompt: "使用 $xhs-note-performance-diagnosis 诊断今天的小红书笔记表现，并输出逐条结论和全局策略洞察。"
