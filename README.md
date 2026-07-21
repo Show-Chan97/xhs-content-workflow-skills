@@ -1,6 +1,6 @@
-# 小红书内容数据自动化 Skills
+# 小红书与内容电商工作流 Skills
 
-一组可独立安装的 Codex Skills，用于小红书趋势采集、每日监控和批量竞品研究。
+一组可独立安装的 Codex Skills，用于小红书趋势采集、每日监控、批量竞品研究，以及内容电商品牌会议的执行拆解。
 
 ## 包含的 Skills
 
@@ -9,8 +9,9 @@
 | [`xhs-trend-content`](xhs-trend-content/README.md) | 采集近期高互动趋势，根据已确认的产品资料生成内容草稿 |
 | [`xhs-daily-monitor`](xhs-daily-monitor/README.md) | 每日监控指定主题，去重整理后追加到飞书日报 |
 | [`xhs-competitor-research`](xhs-competitor-research/README.md) | 分批采集公开笔记，完成竞品分层、需求和内容策略研究 |
+| [`content-commerce-meeting-execution`](content-commerce-meeting-execution/SKILL.md) | 把品牌内容电商会议记录转成可验证待办、单一胜负手和两周复盘表 |
 
-三个 Skill 互相独立，可以只安装其中一个，也可以全部安装。
+四个 Skill 互相独立，可以只安装其中一个，也可以全部安装。
 
 ## 快速安装
 
@@ -36,6 +37,7 @@ ${CODEX_HOME:-$HOME/.codex}/skills/
 ./install.sh xhs-trend-content
 ./install.sh xhs-daily-monitor
 ./install.sh xhs-competitor-research
+./install.sh content-commerce-meeting-execution
 ```
 
 安装脚本不会覆盖已存在的同名目录。如果需要更新，先备份或移走旧目录，再重新运行安装命令。
@@ -65,14 +67,20 @@ cp -R xhs-trend-content "${CODEX_HOME:-$HOME/.codex}/skills/"
 使用 $xhs-competitor-research，围绕指定品牌完成 50 篇有效样本的竞品研究。
 ```
 
+```text
+使用 $content-commerce-meeting-execution，分析这份品牌会议逐字稿，输出可验证待办、执行画像、会议盲区、单一胜负手和两周复盘表。
+```
+
 ## 重要边界
 
-- 执行前先采集信息，并生成执行确认单；
-- 未收到用户明确的“确认执行”，不浏览、不建立定时任务、不写入飞书；
+- 三个采集类 Skill 执行前先采集信息，并生成执行确认单；
+- 未收到用户明确的“确认执行”，采集类 Skill 不浏览、不建立定时任务、不写入飞书；
 - 只读取公开页面和用户现有登录态下正常可见的信息；
 - 不点赞、不收藏、不关注、不评论、不私信、不自动发布；
 - 不绕过登录墙、验证码或平台风控；
 - 不虚构产品事实、使用体验、检测报告、专家背书或效果数据；
+- 会议执行拆解不虚构负责人、日期、预算、基线、目标或行业事实，并将会议明确、推断、建议和待确认分开标注；
+- 会议报告只有在用户明确确认后才发送到工作群、写入飞书或创建任务；
 - 数据不完整、样本不足或写入失败时如实标记。
 
 ## 目录结构
@@ -83,11 +91,12 @@ cp -R xhs-trend-content "${CODEX_HOME:-$HOME/.codex}/skills/"
 ├── install.sh
 ├── xhs-trend-content/
 ├── xhs-daily-monitor/
-└── xhs-competitor-research/
+├── xhs-competitor-research/
+└── content-commerce-meeting-execution/
 ```
 
 每个 Skill 都包含独立的 `SKILL.md`、界面元数据和按需读取的参考规则。
 
 ## 验证状态
 
-三个 Skill 均已通过 `quick_validate.py` 结构校验。`xhs-trend-content` 还完成了信息不完整和无依据功效表达两组前向测试。
+四个 Skill 均已通过 `quick_validate.py` 结构校验。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试。
