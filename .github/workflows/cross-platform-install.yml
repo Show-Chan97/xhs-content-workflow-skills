@@ -16,6 +16,8 @@ jobs:
         run: |
           python3 scripts/validate_text_encoding.py
           python3 scripts/validate_client_onboarding.py
+          python3 scripts/validate_lark_cli_policy.py
+          python3 scripts/validate_meeting_base_output.py
       - name: Validate and install all skills
         run: |
           bash -n install.sh
@@ -34,6 +36,8 @@ jobs:
         run: |
           python scripts/validate_text_encoding.py
           python scripts/validate_client_onboarding.py
+          python scripts/validate_lark_cli_policy.py
+          python scripts/validate_meeting_base_output.py
       - name: Install with Windows PowerShell 5.1
         shell: powershell
         run: |

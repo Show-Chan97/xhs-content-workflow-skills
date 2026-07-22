@@ -12,7 +12,7 @@ description: 围绕业务决策、关键词、竞品范围和样本标准，分�
 3. 未收到明确的“确认执行”前，不批量浏览、不创建定时任务、不写入飞书。
 4. 确认后按 [references/batch-and-checkpoint.md](references/batch-and-checkpoint.md) 串行低频、分批采集并保存检查点。
 5. 按 [references/dataset-schema.md](references/dataset-schema.md) 保存结构化样本、失败记录和数据质量信息。
-6. 全部批次结束或中断后，按 [references/analysis-and-report.md](references/analysis-and-report.md) 清洗、分析和交付。
+6. 全部批次结束或中断后，按 [references/analysis-and-report.md](references/analysis-and-report.md) 清洗、分析和交付；涉及飞书时先完整读取 [references/feishu-cli-policy.md](references/feishu-cli-policy.md)，只通过 `lark-cli` 执行。
 
 ## 研究原则
 
@@ -31,7 +31,7 @@ description: 围绕业务决策、关键词、竞品范围和样本标准，分�
 - 不索取密码、Cookie、令牌或浏览器配置，不绕过验证码、登录墙或风控。
 - 只关闭本次创建的标签页。
 - 主执行器不可用时先说明原因并取得用户同意，再切换备用执行器。
-- 使用外部浏览或飞书 Skill 前动态发现路径并完整读取说明，不写死其他机器的绝对路径。
+- 使用外部浏览或飞书 CLI Skill 前动态发现路径并完整读取说明，不写死其他机器的绝对路径；飞书操作不得改用浏览器、连接器或直接 API。
 
 ## 规模判断
 

@@ -40,7 +40,7 @@
 
 ## 写入步骤
 
-1. 使用飞书文档能力，并完整读取其使用说明。
+1. 完整读取 [feishu-cli-policy.md](feishu-cli-policy.md) 及当前环境的 `lark-doc`、`lark-shared` 说明；所有飞书读取和写入只使用 `lark-cli`。
 2. 用户没有提供飞书文档链接时提醒补充，并停止在确认阶段；不得以文档标题代替链接或自行确定写入目标。执行写入前读取目标文档，验证 URL、权限、既有日期标题与表格风格、当天标题及已有 `note_id`。复用格式，不复用旧数据或旧洞察。
 3. 仅允许 `append`，禁止 `overwrite`。一次运行整段追加一次，不逐篇写。
 4. 当天标题不存在时追加完整日报。
@@ -49,8 +49,8 @@
    - `append_new_only`：剔除已有 `note_id`，只追加“补充 HH:mm”；无新笔记则不写。
    - `append_timed_supplement`：追加带时间的补充章节，仍先去重。
 6. 动态内容中的 `&`、`<`、`>` 及 URL 查询参数必须 XML 转义；追加块以目标文档既有日期标题层级开始，不写 `<title>`。
-7. 检查返回的 `result`、`updated_blocks_count` 和 `warnings`。只有 `success` 或经核实的 `partial_success` 可报告写入结果。
-8. 写入后再次读取新增标题或文末片段。无法验证时明确写“已提交写入但未完成复核”。
+7. 同时检查 CLI 退出码、顶层 `ok`、返回的 `result`、`updated_blocks_count` 和 `warnings`。只有退出码为 0、`ok == true`，且结果为 `success` 或经核实的 `partial_success` 时才可报告写入结果。
+8. 写入后再次通过 `lark-cli` 读取新增标题或文末片段。无法验证时明确写“已提交写入但未完成复核”。
 
 CLI 语义示例：
 
