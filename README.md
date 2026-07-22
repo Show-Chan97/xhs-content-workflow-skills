@@ -1,6 +1,6 @@
-# 小红书内容数据自动化 Skills
+# 小红书与内容电商工作流 Skills
 
-一组可独立安装的 Codex Skills，用于小红书趋势采集、每日监控、批量竞品研究、笔记表现诊断和飞书多维表格日数据复盘。
+一组可独立安装的 Codex Skills，用于小红书趋势采集、每日监控、批量竞品研究、笔记表现诊断、飞书多维表格日数据复盘，以及内容电商品牌会议的执行拆解。
 
 ## 包含的 Skills
 
@@ -11,8 +11,9 @@
 | [`xhs-competitor-research`](xhs-competitor-research/README.md) | 分批采集公开笔记，完成竞品分层、需求和内容策略研究 |
 | [`xhs-note-performance-diagnosis`](xhs-note-performance-diagnosis/SKILL.md) | 根据投流、成交和笔记元信息定位漏斗断点，并给出唯一首要行动 |
 | [`xhs-base-daily-ops`](xhs-base-daily-ops/SKILL.md) | 从飞书多维表格识别三张原始表，完成小红书日数据诊断、复盘和看板方案 |
+| [`content-commerce-meeting-execution`](content-commerce-meeting-execution/SKILL.md) | 把品牌内容电商会议记录转成可验证待办、单一胜负手和两周复盘表 |
 
-五个 Skill 互相独立，可以只安装其中一个，也可以全部安装。
+六个 Skill 互相独立，可以只安装其中一个，也可以全部安装。
 
 ## 快速安装
 
@@ -42,6 +43,7 @@ ${CODEX_HOME:-$HOME/.codex}/skills/
 ./install.sh xhs-competitor-research
 ./install.sh xhs-note-performance-diagnosis
 ./install.sh xhs-base-daily-ops
+./install.sh content-commerce-meeting-execution
 ```
 
 安装脚本不会覆盖已存在的同名目录。如果需要更新，先备份或移走旧目录，再重新运行安装命令。
@@ -79,6 +81,10 @@ cp -R xhs-trend-content "${CODEX_HOME:-$HOME/.codex}/skills/"
 使用 $xhs-base-daily-ops，检查这个飞书多维表格中的三张小红书原始表，并生成昨天的数据复盘。
 ```
 
+```text
+使用 $content-commerce-meeting-execution，分析这份品牌会议逐字稿，输出可验证待办、执行画像、会议盲区、单一胜负手和两周复盘表。
+```
+
 ## 重要边界
 
 - 三个采集类 Skill 执行前先采集信息，并生成执行确认单；
@@ -90,6 +96,8 @@ cp -R xhs-trend-content "${CODEX_HOME:-$HOME/.codex}/skills/"
 - 不绕过登录墙、验证码或平台风控；
 - 不虚构产品事实、使用体验、检测报告、专家背书或效果数据；
 - 笔记表现诊断只给分析和建议，不自动调整预算、停投、改稿或写回业务系统；
+- 会议执行拆解不虚构负责人、日期、预算、基线、目标或行业事实，并将会议明确、推断、建议和待确认分开标注；
+- 会议报告只有在用户明确确认后才发送到工作群、写入飞书或创建任务；
 - 数据不完整、样本不足或写入失败时如实标记。
 
 ## 目录结构
@@ -102,11 +110,12 @@ cp -R xhs-trend-content "${CODEX_HOME:-$HOME/.codex}/skills/"
 ├── xhs-daily-monitor/
 ├── xhs-competitor-research/
 ├── xhs-note-performance-diagnosis/
-└── xhs-base-daily-ops/
+├── xhs-base-daily-ops/
+└── content-commerce-meeting-execution/
 ```
 
 每个 Skill 都包含独立的 `SKILL.md`、界面元数据和按需读取的参考规则。
 
 ## 验证状态
 
-五个 Skill 均已通过 `quick_validate.py` 结构校验。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试。
+六个 Skill 均已通过 `quick_validate.py` 结构校验。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试。
