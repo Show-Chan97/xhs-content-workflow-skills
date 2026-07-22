@@ -1,0 +1,50 @@
+name: Cross-platform install
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Validate text encoding
+        run: |
+          python3 scripts/validate_text_encoding.py
+          python3 scripts/validate_client_onboarding.py
+      - name: Validate and install all skills
+        run: |
+          bash -n install.sh
+          export CODEX_HOME="$RUNNER_TEMP/codex-home"
+          ./install.sh all
+          test "$(find "$CODEX_HOME/skills" -name SKILL.md -type f | wc -l | tr -d ' ')" = "6"
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Validate text encoding
+        run: |
+          python scripts/validate_text_encoding.py
+          python scripts/validate_client_onboarding.py
+      - name: Install with Windows PowerShell 5.1
+        shell: powershell
+        run: |
+          $env:CODEX_HOME = Join-Path $env:RUNNER_TEMP "codex-home-ps51"
+          .\install.ps1 all
+          $installed = @(Get-ChildItem -LiteralPath (Join-Path $env:CODEX_HOME "skills") -Filter SKILL.md -File -Recurse)
+          if ($installed.Count -ne 6) { throw "Expected 6 installed skills, found $($installed.Count)." }
+      - name: Install with PowerShell 7
+        shell: pwsh
+        run: |
+          $env:CODEX_HOME = Join-Path $env:RUNNER_TEMP "codex-home-ps7"
+          .\install.ps1 all
+          $installed = @(Get-ChildItem -LiteralPath (Join-Path $env:CODEX_HOME "skills") -Filter SKILL.md -File -Recurse)
+          if ($installed.Count -ne 6) { throw "Expected 6 installed skills, found $($installed.Count)." }

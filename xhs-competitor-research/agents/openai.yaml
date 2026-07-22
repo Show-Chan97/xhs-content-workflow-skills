@@ -1,4 +1,4 @@
 interface:
   display_name: "小红书批量竞品研究"
-  short_description: "分批采集公开笔记并完成竞品内容分层、用户需求与策略研究分析"
-  default_prompt: "使用 $xhs-competitor-research 设计并执行一项小红书竞品研究。"
+  short_description: "面向客户交互式定义研究目标和样本，分批完成小红书竞品策略研究"
+  default_prompt: "使用 $xhs-competitor-research。若这是首次使用，请先逐步引导我明确研究目标和样本范围，不要立即批量浏览。"
