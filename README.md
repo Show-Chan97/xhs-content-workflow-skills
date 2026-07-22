@@ -11,7 +11,7 @@
 | [`xhs-competitor-research`](xhs-competitor-research/README.md) | 分批采集公开笔记，完成竞品分层、需求和内容策略研究 |
 | [`xhs-note-performance-diagnosis`](xhs-note-performance-diagnosis/SKILL.md) | 根据投流、成交和笔记元信息定位漏斗断点，并给出唯一首要行动 |
 | [`xhs-base-daily-ops`](xhs-base-daily-ops/SKILL.md) | 从飞书多维表格识别三张原始表，完成小红书日数据诊断、复盘和看板方案 |
-| [`content-commerce-meeting-execution`](content-commerce-meeting-execution/SKILL.md) | 把品牌内容电商会议记录转成可验证待办、单一胜负手和两周复盘表 |
+| [`content-commerce-meeting-execution`](content-commerce-meeting-execution/SKILL.md) | 把品牌内容电商会议记录转成可验证待办、单一胜负手、两周复盘表和九字段行动分工 Base |
 
 六个 Skill 互相独立，可以只安装其中一个，也可以全部安装。
 
@@ -156,6 +156,8 @@ Get-Content -LiteralPath ".\xhs-trend-content\SKILL.md" -Raw -Encoding UTF8
 使用 $content-commerce-meeting-execution，分析这份品牌会议逐字稿，输出可验证待办、执行画像、会议盲区、单一胜负手和两周复盘表。
 ```
 
+需要结构化跟进时，可以继续要求输出或创建“复盘行动分工”多维表。Skill 会先预览核心问题、板块、解决方案、优先级、负责人、协同人、截止日期、状态和备注九个字段；只有明确回复“确认执行”后，才会通过 `lark-cli` 新建独立 Base 并回读核验。
+
 ## 重要边界
 
 - 三个采集类 Skill 执行前先采集信息，并生成执行确认单；
@@ -191,4 +193,4 @@ Get-Content -LiteralPath ".\xhs-trend-content\SKILL.md" -Raw -Encoding UTF8
 
 ## 验证状态
 
-六个 Skill 均已通过 `quick_validate.py` 结构校验。仓库还会在 macOS、Windows PowerShell 5.1 和 PowerShell 7 中自动试装全部 6 个 Skill，并检查所有文本为 UTF-8 无 BOM、六份飞书 CLI 规范一致且每个 Skill 都明确引用该规范。三个采集类 Skill 均包含首次使用引导、推荐设置、客户配置卡和执行确认门。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试。
+六个 Skill 均已通过 `quick_validate.py` 结构校验。仓库还会在 macOS、Windows PowerShell 5.1 和 PowerShell 7 中自动试装全部 6 个 Skill，并检查所有文本为 UTF-8 无 BOM、六份飞书 CLI 规范一致且每个 Skill 都明确引用该规范。三个采集类 Skill 均包含首次使用引导、推荐设置、客户配置卡和执行确认门。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试，并通过九字段 Base 输出契约检查。

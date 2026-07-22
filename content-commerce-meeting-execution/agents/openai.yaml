@@ -1,4 +1,4 @@
 interface:
   display_name: "内容电商会议执行拆解"
-  short_description: "将品牌内容电商会议记录拆成可验证待办、执行画像、盲区、单一胜负手与两周复盘表"
-  default_prompt: "使用 $content-commerce-meeting-execution 分析这份品牌会议记录，输出可验证待办、执行画像、会议盲区、单一胜负手和两周复盘表。"
+  short_description: "将内容电商会议拆成可验证行动，并按九字段生成飞书多维表"
+  default_prompt: "使用 $content-commerce-meeting-execution 分析这份品牌会议记录，输出可验证待办、执行画像、会议盲区、单一胜负手、两周复盘表和复盘行动分工多维表预览。"
