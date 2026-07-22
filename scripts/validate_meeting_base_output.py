@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the meeting skill's nine-field Base output contract."""
+"""Validate the meeting skill's Base table-and-document delivery contract."""
 
 from __future__ import annotations
 
@@ -35,6 +35,14 @@ REQUIRED_CONTRACT_MARKERS = (
     "暂停",
     "lark-cli base +base-create",
     "lark-cli base +record-batch-create",
+    "lark-cli base +base-block-create",
+    "--type docx",
+    "lark-cli docs +update",
+    "lark-cli docs +fetch",
+    "docx_token",
+    "同一个 Base",
+    "完整五段式报告",
+    "不重复建 Base",
     "确认执行",
     "一一对应",
     "不修改参考样表",
@@ -60,6 +68,8 @@ def main() -> int:
         errors.append("SKILL.md does not link the Base output contract")
     if "复盘行动分工表预览" not in output_text:
         errors.append("output-spec.md does not require the Base preview")
+    if "Base 内报告文档预览" not in output_text:
+        errors.append("output-spec.md does not require the embedded report preview")
 
     for field in FIELDS:
         if field not in contract_text:
@@ -77,7 +87,7 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    print("Validated the meeting skill's nine-field Base output contract.")
+    print("Validated the meeting skill's Base table-and-document delivery contract.")
     return 0
 
 
