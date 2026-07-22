@@ -1,0 +1,4 @@
+interface:
+  display_name: "小红书 Base 日数据运营"
+  short_description: "在飞书多维表格中识别三张原始表并完成小红书日数据诊断、分析与看板方案"
+  default_prompt: "使用 $xhs-base-daily-ops 检查这个飞书多维表格中的三张原始表，并给出日维度数据诊断与下一步方案。"

@@ -9,10 +9,11 @@ available_skills=(
   "xhs-daily-monitor"
   "xhs-competitor-research"
   "xhs-note-performance-diagnosis"
+  "xhs-base-daily-ops"
 )
 
 usage() {
-  echo "Usage: ./install.sh all|xhs-trend-content|xhs-daily-monitor|xhs-competitor-research|xhs-note-performance-diagnosis"
+  echo "Usage: ./install.sh all|xhs-trend-content|xhs-daily-monitor|xhs-competitor-research|xhs-note-performance-diagnosis|xhs-base-daily-ops"
 }
 
 requested="${1:-}"
