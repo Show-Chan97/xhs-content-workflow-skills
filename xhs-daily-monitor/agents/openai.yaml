@@ -1,4 +1,4 @@
 interface:
   display_name: "小红书每日监控与飞书日报"
-  short_description: "每日低频监控小红书主题并把去重后的完整日报追加到飞书文档"
-  default_prompt: "使用 $xhs-daily-monitor 配置小红书主题监控并生成飞书日报。"
+  short_description: "面向客户交互式配置，每日监控小红书主题并把完整日报追加到飞书"
+  default_prompt: "使用 $xhs-daily-monitor。若这是首次使用，请先逐步引导我设置监控和飞书日报，不要立即浏览或写入。"

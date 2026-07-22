@@ -53,6 +53,26 @@ pwsh -NoProfile -File .\install.ps1 all
 
 `xhs-base-daily-ops` 还需要当前电脑已具备可用的 `lark-cli`、飞书多维表格能力和用户授权；Skill 不保存登录凭据，缺少依赖或权限时会停止并报告。
 
+## 直接交付给客户使用
+
+三个采集类 Skill 已包含首次使用引导。客户不需要先填写参数表，新建任务后直接输入以下任意一句即可：
+
+```text
+使用 $xhs-trend-content，这是我第一次使用，请一步一步帮我完成设置。
+```
+
+```text
+使用 $xhs-daily-monitor，这是我第一次使用，请帮我设置每日监控和飞书日报。
+```
+
+```text
+使用 $xhs-competitor-research，这是我第一次使用，请帮我确定研究目标和样本范围。
+```
+
+首次设置通常分 2–3 轮，每轮最多 3 个问题。客户可以回复“按推荐设置”，只补充品牌、产品、关键词、飞书链接等无法代填的信息。设置完成后会得到一张可复制的【客户配置卡】；新任务中再次粘贴即可复用。配置卡是客户自行保存的交接材料，不代表系统会永久保存客户设置。
+
+首次引导和配置卡都不会触发浏览、定时任务或飞书写入；只有客户核对执行确认单并明确回复“确认执行”后才会开始。
+
 ## 安装单个 Skill
 
 macOS：
@@ -166,4 +186,4 @@ Get-Content -LiteralPath ".\xhs-trend-content\SKILL.md" -Raw -Encoding UTF8
 
 ## 验证状态
 
-六个 Skill 均已通过 `quick_validate.py` 结构校验。仓库还会在 macOS、Windows PowerShell 5.1 和 PowerShell 7 中自动试装全部 6 个 Skill，并检查所有文本为 UTF-8 无 BOM。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试。
+六个 Skill 均已通过 `quick_validate.py` 结构校验。仓库还会在 macOS、Windows PowerShell 5.1 和 PowerShell 7 中自动试装全部 6 个 Skill，并检查所有文本为 UTF-8 无 BOM。三个采集类 Skill 均包含首次使用引导、推荐设置、客户配置卡和执行确认门。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试。

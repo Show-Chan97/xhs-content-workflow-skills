@@ -13,7 +13,9 @@ jobs:
         with:
           python-version: "3.x"
       - name: Validate text encoding
-        run: python3 scripts/validate_text_encoding.py
+        run: |
+          python3 scripts/validate_text_encoding.py
+          python3 scripts/validate_client_onboarding.py
       - name: Validate and install all skills
         run: |
           bash -n install.sh
@@ -29,7 +31,9 @@ jobs:
         with:
           python-version: "3.x"
       - name: Validate text encoding
-        run: python scripts/validate_text_encoding.py
+        run: |
+          python scripts/validate_text_encoding.py
+          python scripts/validate_client_onboarding.py
       - name: Install with Windows PowerShell 5.1
         shell: powershell
         run: |
