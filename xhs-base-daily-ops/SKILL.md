@@ -10,7 +10,8 @@ description: 以用户指定的飞书多维表格为唯一数据源，先识别�
 - 要求用户提供一个飞书多维表格 URL，或能够唯一解析的 Base 标题。没有数据源时输出 `SOURCE_REQUIRED`，只索取该信息，不假定任何表或数据存在。
 - 将“找到并确认三张原始表”作为所有模式的第一阶段。不得把 Base 中顺序靠前的三张表直接当成目标表。
 - 开始前动态定位并完整读取当前环境的 `lark-base` 与 `lark-shared` Skill；遵守其中的 URL 解析、身份、分页、查询和权限规则，不写死本机路径。
-- 找不到 `lark-base`、`lark-shared` 或 `lark-cli` 时，输出缺少的依赖并停止；不得改用浏览器模拟编辑 Base。
+- 开始飞书操作前完整读取 [references/feishu-cli-policy.md](references/feishu-cli-policy.md)。Base 的 URL 解析、读取、查询、修改和回读全部通过 `lark-cli` 执行。
+- 找不到 `lark-base`、`lark-shared` 或 `lark-cli` 时，输出缺少的依赖并停止；不得改用浏览器、连接器、通用飞书能力或直接 API。
 - 默认使用用户身份和用户已经授权的权限。不得索取密码、Cookie、访问令牌或应用密钥。
 
 ## 运行模式

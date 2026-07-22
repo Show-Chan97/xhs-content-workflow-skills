@@ -51,7 +51,11 @@ pwsh -NoProfile -File .\install.ps1 all
 
 安装完成后，新建一个 Codex 任务即可调用。
 
-`xhs-base-daily-ops` 还需要当前电脑已具备可用的 `lark-cli`、飞书多维表格能力和用户授权；Skill 不保存登录凭据，缺少依赖或权限时会停止并报告。
+## 飞书统一执行方式
+
+六个 Skill 只要涉及飞书，读取、写入、链接解析、搜索、群消息、任务创建和回读验证都必须通过 `lark-cli` 执行。不会改用浏览器界面、MCP/App 连接器、通用飞书能力或直接 OpenAPI。
+
+使用飞书功能前，客户电脑需要安装可用的 `lark-cli` 并完成所需的最小用户授权。Skill 会先验证 CLI 和授权状态；缺少依赖、授权或权限时会停止飞书步骤并说明需要客户完成的操作，不会索取密码、Cookie、令牌或应用密钥。任何写入、发送、创建或修改动作仍需用户明确回复“确认执行”，完成后通过 `lark-cli` 回读核验。
 
 ## 直接交付给客户使用
 
@@ -165,6 +169,7 @@ Get-Content -LiteralPath ".\xhs-trend-content\SKILL.md" -Raw -Encoding UTF8
 - 不虚构产品事实、使用体验、检测报告、专家背书或效果数据；
 - 会议执行拆解不虚构负责人、日期、预算、基线、目标或行业事实，并将会议明确、推断、建议和待确认分开标注；
 - 会议报告只有在用户明确确认后才发送到工作群、写入飞书或创建任务；
+- 六个 Skill 的所有飞书操作统一通过 `lark-cli` 执行，不使用浏览器、连接器或直接 API 作为备用路径；
 - 数据不完整、样本不足或写入失败时如实标记。
 
 ## 目录结构
@@ -186,4 +191,4 @@ Get-Content -LiteralPath ".\xhs-trend-content\SKILL.md" -Raw -Encoding UTF8
 
 ## 验证状态
 
-六个 Skill 均已通过 `quick_validate.py` 结构校验。仓库还会在 macOS、Windows PowerShell 5.1 和 PowerShell 7 中自动试装全部 6 个 Skill，并检查所有文本为 UTF-8 无 BOM。三个采集类 Skill 均包含首次使用引导、推荐设置、客户配置卡和执行确认门。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试。
+六个 Skill 均已通过 `quick_validate.py` 结构校验。仓库还会在 macOS、Windows PowerShell 5.1 和 PowerShell 7 中自动试装全部 6 个 Skill，并检查所有文本为 UTF-8 无 BOM、六份飞书 CLI 规范一致且每个 Skill 都明确引用该规范。三个采集类 Skill 均包含首次使用引导、推荐设置、客户配置卡和执行确认门。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试。

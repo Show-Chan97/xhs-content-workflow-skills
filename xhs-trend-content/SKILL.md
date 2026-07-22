@@ -22,6 +22,7 @@ description: 围绕指定品类和关键词采集近期高互动小红书公开�
 - 采集步骤和结构化字段：执行采集前读取 [references/collection-fields.md](references/collection-fields.md)。
 - 完整交付骨架、草稿结构和事实边界：生成内容或整理最终报告前完整读取 [references/content-output-spec.md](references/content-output-spec.md)。
 - 平台安全与内容合规：开始浏览或写稿前读取 [references/compliance.md](references/compliance.md)。
+- 飞书唯一执行方式：只要读取、写入或解析飞书资源，先完整读取 [references/feishu-cli-policy.md](references/feishu-cli-policy.md)，全部通过 `lark-cli` 执行。
 
 ## 浏览器决策
 

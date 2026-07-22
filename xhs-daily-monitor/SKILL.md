@@ -13,7 +13,7 @@ description: 持续监控小红书指定主题，按时间窗口与可见互动�
 2. 输出【已识别】【需要确认】【暂用默认值】，每轮最多询问 3 个阻塞问题；完成后先生成【客户配置卡】，再读取 [references/intake-and-config.md](references/intake-and-config.md) 校验并生成确认单。
 3. 未收到“确认执行”前，不浏览、不创建定时任务、不写飞书。
 4. 确认后读取 [references/collection-and-dedupe.md](references/collection-and-dedupe.md)，先做 Chrome CDP 与标签页快照，再按时间层串行采集；纳入日报的每篇笔记都必须打开详情页核验。
-5. 写日报前读取 [references/report-and-feishu.md](references/report-and-feishu.md)，先查现有日期标题和 `note_id`，整段追加一次，再回读复核。
+5. 写日报前读取 [references/report-and-feishu.md](references/report-and-feishu.md) 和 [references/feishu-cli-policy.md](references/feishu-cli-policy.md)，先通过 `lark-cli` 查现有日期标题和 `note_id`，整段追加一次，再通过 `lark-cli` 回读复核。
 6. 异常时按 [references/failure-states.md](references/failure-states.md) 降级并保存进度。
 
 ## 固定边界
@@ -32,8 +32,8 @@ description: 持续监控小红书指定主题，按时间窗口与可见互动�
 
 - 通过本地 Chrome CDP 访问小红书时，优先使用 Codex 自带的 Chrome 插件控制用户当前的本地 Chrome 和现有登录态；执行前先验证连接。
 - 主执行器失败时先说明原因，取得用户同意后才能切换备用执行器。
-- 使用外部浏览 Skill 或飞书能力前，动态发现并完整读取其 `SKILL.md`；不得写死本机以外的路径。
-- 飞书写入使用文档能力或 CLI，不通过浏览器模拟编辑。
+- 使用外部浏览 Skill 或飞书 CLI 前，动态发现并完整读取其 `SKILL.md`；不得写死本机以外的路径。
+- 飞书读取、链接解析、写入和回读只通过 `lark-cli` 执行；不得改用浏览器、连接器、通用飞书能力或直接 API。
 - 用户没有提供可解析的飞书 `docx` 或 `wiki` 链接时，提醒用户提供链接；文档名称不能替代链接，不得据此直接写入或自行确定目标。
 - 权限不足时保留待写日报，进入 `READ_ONLY_READY`，引导用户按最小权限授权；不索取凭据。
 
