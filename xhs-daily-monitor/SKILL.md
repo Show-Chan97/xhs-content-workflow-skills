@@ -10,9 +10,9 @@ description: 持续监控小红书指定主题，按时间窗口与可见互动�
 `信息识别 → 执行确认 → 浏览器低频采集 → note_id 去重 → 摘要与分类 → 生成日报 → 飞书追加 → 回读校验 → 汇报`
 
 1. 先输出【已识别】【需要确认】【暂用默认值】，每轮最多询问 3 个阻塞问题。
-2. 读取 [references/intake-and-config.md](references/intake-and-config.md)，校验参数并生成确认单。
+2. 读取 [references/intake-and-config.md](references/intake-and-config.md)，校验参数并生成确认单；未提供飞书文档链接时明确提醒用户补充。
 3. 未收到“确认执行”前，不浏览、不创建定时任务、不写飞书。
-4. 确认后读取 [references/collection-and-dedupe.md](references/collection-and-dedupe.md)，按时间层、互动门槛和去重规则采集。
+4. 确认后读取 [references/collection-and-dedupe.md](references/collection-and-dedupe.md)，先做 Chrome CDP 与标签页快照，再按时间层串行采集；纳入日报的每篇笔记都必须打开详情页核验。
 5. 写日报前读取 [references/report-and-feishu.md](references/report-and-feishu.md)，先查现有日期标题和 `note_id`，整段追加一次，再回读复核。
 6. 异常时按 [references/failure-states.md](references/failure-states.md) 降级并保存进度。
 
@@ -23,16 +23,18 @@ description: 持续监控小红书指定主题，按时间窗口与可见互动�
 - 不互动、不私信、不发布，不绕过登录墙、验证码或风控。
 - 不索取密码、Cookie、令牌或浏览器配置。
 - 只关闭本次新建的标签页。
+- 不把搜索卡片上的互动数当成详情页核验结果；详情页无法验证的候选不纳入达标样本。
 - 数据不全时明确标记，不估算隐藏数字。
 - 样本不足时按实际数量结束，不擅自降低门槛或扩大时间范围。
 - 本 Skill 只向用户确认的现有飞书文档追加；不自动新建、不覆盖历史内容。
 
 ## 浏览器与飞书能力
 
-- 默认使用当前环境可用的 Chrome 控制能力和用户现有登录态。
+- 通过本地 Chrome CDP 访问小红书时，优先使用 Codex 自带的 Chrome 插件控制用户当前的本地 Chrome 和现有登录态；执行前先验证连接。
 - 主执行器失败时先说明原因，取得用户同意后才能切换备用执行器。
 - 使用外部浏览 Skill 或飞书能力前，动态发现并完整读取其 `SKILL.md`；不得写死本机以外的路径。
 - 飞书写入使用文档能力或 CLI，不通过浏览器模拟编辑。
+- 用户没有提供可解析的飞书 `docx` 或 `wiki` 链接时，提醒用户提供链接；文档名称不能替代链接，不得据此直接写入或自行确定目标。
 - 权限不足时保留待写日报，进入 `READ_ONLY_READY`，引导用户按最小权限授权；不索取凭据。
 
 ## 确认范围
@@ -41,4 +43,4 @@ description: 持续监控小红书指定主题，按时间窗口与可见互动�
 
 ## 完成标准
 
-只有完成采集、去重、日报生成、飞书追加和回读校验，才能标记 `COMPLETE`。无法复核时应写“已提交写入但未完成复核”，不得声称完全成功。
+只有完成采集、去重、日报生成、飞书追加、回读校验和本次新建标签页清理，才能标记 `COMPLETE`。无法复核时应写“已提交写入但未完成复核”，不得声称完全成功。

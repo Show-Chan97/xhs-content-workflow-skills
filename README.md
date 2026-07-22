@@ -19,23 +19,43 @@
 
 需要已安装 Git，并能够访问 GitHub。
 
+### macOS
+
 ```bash
 git clone https://github.com/Show-Chan97/xhs-content-workflow-skills.git
 cd xhs-content-workflow-skills
 ./install.sh all
 ```
 
-默认安装位置为：
+默认安装到 `${CODEX_HOME:-$HOME/.codex}/skills/`。
 
-```text
-${CODEX_HOME:-$HOME/.codex}/skills/
+### Windows
+
+Windows PowerShell 5.1：
+
+```powershell
+git clone https://github.com/Show-Chan97/xhs-content-workflow-skills.git
+Set-Location xhs-content-workflow-skills
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 all
 ```
+
+PowerShell 7 也可以运行：
+
+```powershell
+pwsh -NoProfile -File .\install.ps1 all
+```
+
+默认安装到 `$env:CODEX_HOME\skills`；未设置 `CODEX_HOME` 时安装到 `$env:USERPROFILE\.codex\skills`。
+
+两个安装器复制的是同一套 Skill 文件，不会转换文本编码。仓库中的 Markdown、YAML、JSON、CSV 和 Python 文本统一使用 UTF-8 无 BOM；Windows 安装器会以严格 UTF-8 校验每个 `SKILL.md`，避免 PowerShell 5.1 按系统代码页误读中文。
 
 安装完成后，新建一个 Codex 任务即可调用。
 
 `xhs-base-daily-ops` 还需要当前电脑已具备可用的 `lark-cli`、飞书多维表格能力和用户授权；Skill 不保存登录凭据，缺少依赖或权限时会停止并报告。
 
 ## 安装单个 Skill
+
+macOS：
 
 ```bash
 ./install.sh xhs-trend-content
@@ -46,18 +66,45 @@ ${CODEX_HOME:-$HOME/.codex}/skills/
 ./install.sh content-commerce-meeting-execution
 ```
 
+Windows：
+
+```powershell
+.\install.ps1 xhs-trend-content
+.\install.ps1 xhs-daily-monitor
+.\install.ps1 xhs-competitor-research
+.\install.ps1 content-commerce-meeting-execution
+.\install.ps1 xhs-base-daily-ops
+.\install.ps1 xhs-note-performance-diagnosis
+```
+
 安装脚本不会覆盖已存在的同名目录。如果需要更新，先备份或移走旧目录，再重新运行安装命令。
 
 ## 手动安装
 
-也可以复制单个目录：
+macOS 可以复制单个目录：
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 cp -R xhs-trend-content "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
+Windows 可以使用：
+
+```powershell
+$target = if ($env:CODEX_HOME) { Join-Path $env:CODEX_HOME "skills" } else { Join-Path $env:USERPROFILE ".codex\skills" }
+New-Item -ItemType Directory -Path $target -Force | Out-Null
+Copy-Item -LiteralPath ".\xhs-trend-content" -Destination $target -Recurse
+```
+
 必须复制完整 Skill 目录，包括 `SKILL.md`、`agents/` 和 `references/`。
+
+如果在 Windows PowerShell 5.1 中手动查看中文文件，请显式指定 UTF-8：
+
+```powershell
+Get-Content -LiteralPath ".\xhs-trend-content\SKILL.md" -Raw -Encoding UTF8
+```
+
+不要批量把 `SKILL.md` 转成 UTF-8 BOM；部分解析器要求文件第一个字节就是 YAML frontmatter 的 `---`。
 
 ## 调用示例
 
@@ -91,11 +138,11 @@ cp -R xhs-trend-content "${CODEX_HOME:-$HOME/.codex}/skills/"
 - 未收到用户明确的“确认执行”，采集类 Skill 不浏览、不建立定时任务、不写入飞书；
 - Base 复盘先只读识别三张原始表；缺表、重名、字段不足或只有标题没有稳定笔记 ID 时停止并报告；
 - 未收到用户明确的“确认执行”，Base 复盘不改表、不建关联、不创建仪表盘或 workflow；
+- 笔记表现诊断只给分析和建议，不自动调整预算、停投、改稿或写回业务系统；
 - 采集类 Skill 只读取公开页面和用户现有登录态下正常可见的信息；
 - 不点赞、不收藏、不关注、不评论、不私信、不自动发布；
 - 不绕过登录墙、验证码或平台风控；
 - 不虚构产品事实、使用体验、检测报告、专家背书或效果数据；
-- 笔记表现诊断只给分析和建议，不自动调整预算、停投、改稿或写回业务系统；
 - 会议执行拆解不虚构负责人、日期、预算、基线、目标或行业事实，并将会议明确、推断、建议和待确认分开标注；
 - 会议报告只有在用户明确确认后才发送到工作群、写入飞书或创建任务；
 - 数据不完整、样本不足或写入失败时如实标记。
@@ -106,6 +153,7 @@ cp -R xhs-trend-content "${CODEX_HOME:-$HOME/.codex}/skills/"
 .
 ├── README.md
 ├── install.sh
+├── install.ps1
 ├── xhs-trend-content/
 ├── xhs-daily-monitor/
 ├── xhs-competitor-research/
@@ -118,4 +166,4 @@ cp -R xhs-trend-content "${CODEX_HOME:-$HOME/.codex}/skills/"
 
 ## 验证状态
 
-六个 Skill 均已通过 `quick_validate.py` 结构校验。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试。
+六个 Skill 均已通过 `quick_validate.py` 结构校验。仓库还会在 macOS、Windows PowerShell 5.1 和 PowerShell 7 中自动试装全部 6 个 Skill，并检查所有文本为 UTF-8 无 BOM。`xhs-trend-content` 已完成信息不完整和无依据功效表达两组前向测试；`xhs-note-performance-diagnosis` 已完成规则脚本测试、边界回归和独立诊断场景前向测试；`xhs-base-daily-ops` 已完成标准三表、结构歧义、未确认写入和缺少数据源四组独立场景测试；`content-commerce-meeting-execution` 已完成正常输入、缺失信息和空泛会议三组前向测试。
