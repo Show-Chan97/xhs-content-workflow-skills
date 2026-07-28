@@ -1,4 +1,4 @@
 interface:
   display_name: "内容电商会议执行拆解"
-  short_description: "将内容电商会议拆成行动表，并在同一 Base 内生成完整报告文档"
-  default_prompt: "使用 $content-commerce-meeting-execution 分析这份品牌会议记录，输出可验证待办，并准备包含九字段行动表和完整会议执行报告文档的飞书 Base 交付包。"
+  short_description: "将内容电商会议拆成动态复盘行动表，并在同一 Base 内生成完整报告"
+  default_prompt: "使用 $content-commerce-meeting-execution 分析这份品牌会议记录，输出可验证待办和动态复盘节点，并准备包含十四字段行动与复盘表和完整会议执行报告文档的飞书 Base 交付包。"
