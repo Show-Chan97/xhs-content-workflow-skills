@@ -22,10 +22,17 @@ FIELDS = (
     "协同人",
     "截止日期",
     "状态",
-    "备注",
+    "复盘类型",
+    "复盘触发条件",
+    "复盘节点",
+    "验收证据",
+    "复盘结论",
+    "下一步",
 )
 
 REQUIRED_CONTRACT_MARKERS = (
+    "固定十四字段",
+    "行动与复盘",
     "P0-紧急",
     "P1-重要",
     "P2-常规",
@@ -33,6 +40,16 @@ REQUIRED_CONTRACT_MARKERS = (
     "进行中",
     "已完成",
     "暂停",
+    "进度复盘",
+    "结果复盘",
+    "决策复盘",
+    "风险复盘",
+    "待复盘",
+    "通过",
+    "继续观察",
+    "调整",
+    "放弃",
+    "不统一增加 14 天",
     "lark-cli base +base-create",
     "lark-cli base +record-batch-create",
     "lark-cli base +base-block-create",
@@ -72,7 +89,7 @@ def main() -> int:
 
     if "references/base-action-output.md" not in skill_text:
         errors.append("SKILL.md does not link the Base output contract")
-    if "复盘行动分工表预览" not in output_text:
+    if "行动与动态复盘表预览" not in output_text:
         errors.append("output-spec.md does not require the Base preview")
     if "Base 内报告文档预览" not in output_text:
         errors.append("output-spec.md does not require the embedded report preview")
@@ -83,9 +100,29 @@ def main() -> int:
         if field not in output_text:
             errors.append(f"output preview missing field {field!r}")
 
+    output_header = "| " + " | ".join(FIELDS) + " |"
+    if output_header not in output_text:
+        errors.append("output preview does not use the fixed 14-field order")
+
+    schema_positions = [contract_text.find(f'{{"name":"{field}"') for field in FIELDS]
+    if any(position < 0 for position in schema_positions):
+        errors.append("Base schema template does not contain every fixed field")
+    elif schema_positions != sorted(schema_positions):
+        errors.append("Base schema template does not use the fixed 14-field order")
+
     for marker in REQUIRED_CONTRACT_MARKERS:
         if marker not in contract_text:
             errors.append(f"Base contract missing marker {marker!r}")
+
+    forbidden_fixed_period_markers = (
+        "生成两周复盘表",
+        "两周后复盘预备",
+        "Skill 固定包含“两周复盘表”",
+    )
+    combined_text = "\n".join((skill_text, output_text, contract_text))
+    for marker in forbidden_fixed_period_markers:
+        if marker in combined_text:
+            errors.append(f"meeting review contract still fixes the period with {marker!r}")
 
     if errors:
         print("Meeting Base output validation failed:")
