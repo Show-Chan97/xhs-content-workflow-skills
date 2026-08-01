@@ -10,7 +10,7 @@ description: 围绕指定品类和关键词采集近期高互动小红书公开�
 1. 首次使用或信息不完整时，先读取 [references/client-onboarding.md](references/client-onboarding.md)，用客户能理解的业务语言分轮引导。
 2. 从用户原话预填信息，输出【已识别】【需要确认】【暂用默认值】；每轮最多询问 3 个问题，不重复询问已明确字段。
 3. 信息齐全后先输出可复制的【客户配置卡】，再输出【执行确认单】。未收到用户明确的“确认执行”，不得浏览、创建定时任务或写入飞书。
-4. 确认后低频串行采集公开笔记，按 `note_id` 去重并记录数据限制。
+4. 确认后先按 [references/browser-executors.md](references/browser-executors.md) 选择并验证浏览器执行器，再低频串行采集公开笔记，按 `note_id` 去重并记录数据限制。
 5. 根据确认过的产品事实与真实资料完成产品信息转译，并生成差异化内容草稿。
 6. 按固定交付骨架输出任务状态、样本表、爆款词与句式、评论反馈、推广信号、产品信息转译、内容草稿、后续任务说明和发布前待补信息。
 7. 汇报实际样本量、生成数量、待补字段、失败原因和标签页清理结果。
@@ -20,17 +20,19 @@ description: 围绕指定品类和关键词采集近期高互动小红书公开�
 - 客户首次使用、配置卡与分轮提问：首次调用、信息不完整或用户要求引导时读取 [references/client-onboarding.md](references/client-onboarding.md)。
 - 信息采集、默认值、校验与确认单：读取 [references/intake-and-validation.md](references/intake-and-validation.md)。
 - 采集步骤和结构化字段：执行采集前读取 [references/collection-fields.md](references/collection-fields.md)。
+- 浏览器主备选择、切换授权和连续性：开始任何浏览器操作前完整读取 [references/browser-executors.md](references/browser-executors.md)。
 - 完整交付骨架、草稿结构和事实边界：生成内容或整理最终报告前完整读取 [references/content-output-spec.md](references/content-output-spec.md)。
 - 平台安全与内容合规：开始浏览或写稿前读取 [references/compliance.md](references/compliance.md)。
 - 飞书唯一执行方式：只要读取、写入或解析飞书资源，先完整读取 [references/feishu-cli-policy.md](references/feishu-cli-policy.md)，全部通过 `lark-cli` 执行。
 
 ## 浏览器决策
 
-- 默认使用当前环境可用的 Chrome 控制能力和用户现有登录态。
+- 默认使用 Codex 自带的 Chrome 控制能力和用户现有登录态；`web-access` 仅作为主执行器发生非策略性技术故障时的候选备用执行器。
 - 开始时记录用户原有标签页；只操作、关闭本次新建的标签页。
-- 主执行器不可用时先报告原因。只有用户确认后才切换备用执行器。
-- 使用任何外部浏览 Skill 前，动态发现其安装位置并完整读取对应 `SKILL.md`，不得写死其他机器的绝对路径。
-- 两种执行器都不可用时停止，并说明缺少条件。
+- 主执行器失败时先保留原始错误并按 `browser-executors.md` 分类。只有符合可切换条件，且确认单已预先授权或用户另行明确同意，才可切换 `web-access`。
+- 使用 `web-access` 前从当前运行环境动态发现并完整读取其 `SKILL.md`，执行它要求的前置检查和风险提示；不得写死任何机器的绝对路径。
+- 明确的浏览器安全、网络、组织、域名或平台策略拒绝，以及登录墙、验证码和风控，不得通过 `web-access` 或其他通道重试同一访问。
+- 两种执行器都不可用时停止，并说明主执行器错误、备用状态和继续条件。
 
 ## 不可越过的确认门
 

@@ -2,9 +2,10 @@
 
 ## 执行前检查
 
-1. 记录开始时已有标签页的稳定标识，建立 `initial_tabs`；后续只把本轮新建的小红书标签页加入 `created_tabs`。
-2. 访问本地 Chrome CDP 时优先调用 Codex 自带的 Chrome 插件，验证它能控制当前本地 Chrome，且现有登录态能正常打开小红书搜索页；失败则进入 `BLOCKED`，不得自动换执行器。
-3. 按确认单固定搜索词顺序。搜索页优先选择“最新”；若页面没有该排序、切换失败或实际结果明显不是按时间排列，记录真实排序状态，不得声称使用了“最新”。
+1. 完整读取 [browser-executors.md](browser-executors.md)，优先通过主执行器记录已有标签页并建立 `initial_tabs`；后续只把本轮新建的小红书标签页加入 `created_tabs`。
+2. 验证主执行器能控制当前本地 Chrome，且现有登录态能正常打开小红书搜索页。失败时保留原始错误并先分类；只有符合可切换条件且已经获得备用授权，才可启用 `web-access`。
+3. 若在标签页快照前切换到 `web-access`，必须在新建任何标签页前重新建立 `initial_tabs`；中途切换时先保存已采 `note_id` 和关键词进度，再从未完成位置续采。
+4. 按确认单固定搜索词顺序。搜索页优先选择“最新”；若页面没有该排序、切换失败或实际结果明显不是按时间排列，记录真实排序状态，不得声称使用了“最新”。
 
 ## 时间层
 
@@ -48,7 +49,12 @@ run_meta:
   run_id: ""
   run_date: YYYY-MM-DD
   timezone: Asia/Shanghai
-  browser_adapter_used: ""
+  primary_browser_adapter: codex_chrome
+  browser_adapter_used: "" # codex_chrome | web_access
+  browser_fallback_policy: ask_on_failure # preauthorized | ask_on_failure | disabled
+  browser_fallback_used: false
+  browser_switch_reason: ""
+  browser_authorization_source: ""
   keywords: []
   primary_window: ""
   fallback_used: ""

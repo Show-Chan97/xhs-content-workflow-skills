@@ -2,11 +2,25 @@
 
 ## 执行步骤
 
-1. 按已确认关键词搜索，优先查看符合时间范围的公开结果。
-2. 按 `note_id` 去重；无法取得时以规范 URL 作临时键并标记。
-3. 只保留达到互动门槛且基本信息可确认的笔记。
-4. 完成全部采集后再统一提炼趋势，避免用单篇样本提前下结论。
-5. 样本不足时停止在实际数量，不扩大范围或降低门槛，除非用户重新确认。
+1. 开始浏览前完整读取 [browser-executors.md](browser-executors.md)，验证主执行器并记录 `browser_adapter_used`；发生故障时先分类，再决定是否进入备用切换流程。
+2. 按已确认关键词搜索，优先查看符合时间范围的公开结果。
+3. 按 `note_id` 去重；无法取得时以规范 URL 作临时键并标记。
+4. 只保留达到互动门槛且基本信息可确认的笔记。
+5. 中途切换执行器时先保存已采 `note_id`、关键词进度和本轮标签页，再从未完成位置续采，不重复已完成样本。
+6. 完成全部采集后再统一提炼趋势，避免用单篇样本提前下结论。
+7. 样本不足时停止在实际数量，不扩大范围或降低门槛，除非用户重新确认。
+
+每次运行记录主执行器、实际执行器、是否启用备用、切换原因和授权来源；对外报告实际使用的浏览方式及数据限制。
+
+```yaml
+browser_run:
+  primary_adapter: codex_chrome
+  actual_adapter: "" # codex_chrome | web_access
+  fallback_policy: ask_on_failure # preauthorized | ask_on_failure | disabled
+  fallback_used: false
+  switch_reason: ""
+  authorization_source: ""
+```
 
 ## 每篇记录字段
 

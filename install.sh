@@ -11,10 +11,11 @@ available_skills=(
   "xhs-note-performance-diagnosis"
   "xhs-base-daily-ops"
   "content-commerce-meeting-execution"
+  "xhs-decision-path-mining"
 )
 
 usage() {
-  echo "Usage: ./install.sh all|xhs-trend-content|xhs-daily-monitor|xhs-competitor-research|xhs-note-performance-diagnosis|xhs-base-daily-ops|content-commerce-meeting-execution"
+  echo "Usage: ./install.sh all|xhs-trend-content|xhs-daily-monitor|xhs-competitor-research|xhs-note-performance-diagnosis|xhs-base-daily-ops|content-commerce-meeting-execution|xhs-decision-path-mining"
 }
 
 requested="${1:-}"
