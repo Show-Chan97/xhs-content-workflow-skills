@@ -19,11 +19,12 @@ $availableSkills = @(
     "xhs-competitor-research",
     "xhs-note-performance-diagnosis",
     "xhs-base-daily-ops",
-    "content-commerce-meeting-execution"
+    "content-commerce-meeting-execution",
+    "xhs-decision-path-mining"
 )
 
 function Show-Usage {
-    Write-Host "Usage: .\install.ps1 all|xhs-trend-content|xhs-daily-monitor|xhs-competitor-research|xhs-note-performance-diagnosis|xhs-base-daily-ops|content-commerce-meeting-execution"
+    Write-Host "Usage: .\install.ps1 all|xhs-trend-content|xhs-daily-monitor|xhs-competitor-research|xhs-note-performance-diagnosis|xhs-base-daily-ops|content-commerce-meeting-execution|xhs-decision-path-mining"
 }
 
 function Test-Utf8SkillFile {

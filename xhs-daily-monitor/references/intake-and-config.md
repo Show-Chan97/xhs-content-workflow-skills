@@ -15,7 +15,7 @@
 - 现有飞书文档 URL、同日策略、跨日去重范围；没有 URL 时明确提醒用户补充。
 - 立即或定时；频率、`HH:mm` 时间、时区。
 
-系统推荐项只能放入【暂用默认值】：最近 24 小时、目标 10 篇、每日上限 10 篇、零结果仍写日报、执行失败不自动写入日报、时区 `Asia/Shanghai`、回补至 7 天、滚动 7 天去重、每次最多打开 30 个详情页。
+系统推荐项只能放入【暂用默认值】：最近 24 小时、目标 10 篇、每日上限 10 篇、零结果仍写日报、执行失败不自动写入日报、时区 `Asia/Shanghai`、回补至 7 天、滚动 7 天去重、每次最多打开 30 个详情页，以及主执行器发生可切换的技术故障时再询问是否使用 `web-access`。
 
 ## 配置结构
 
@@ -45,6 +45,10 @@ collection:
   max_results: 10
   max_detail_pages: 30
   dedupe_scope: rolling_7d # current_run | current_day | rolling_7d
+browser:
+  primary_adapter: codex_chrome
+  fallback_adapter: web_access
+  fallback_policy: ask_on_failure # preauthorized | ask_on_failure | disabled
 classification:
   template_labels: [方法型, 情绪共鸣, 家长故事, 分类科普, 疑似广告/转化, 本地服务转化, 其他]
   selected_labels: [] # 用户确认后填写；可沿用、删除、改名或增加
@@ -73,6 +77,7 @@ run:
 - 飞书 URL 必须可解析为 `docx` 或 `wiki`，并可由当前用户访问。未提供链接时先提醒用户补充，文档标题不能替代链接。
 - 分类标签是模板参考，不得默认视为用户已确认；确认单要询问用户是否沿用、修改或增加，最终写入 `selected_labels`。
 - 定时执行必须有频率、时间和时区。
+- 备用切换规则必须明确为“预先授权”“故障发生后再确认”或“禁用”；普通“确认执行”不得被解释为未展示的备用授权。
 
 ## 确认单
 
@@ -95,7 +100,9 @@ run:
 跨日去重范围：
 立即或定时：
 频率、时间、时区：
-浏览方式：使用客户当前 Chrome 登录状态，只读采集
+主浏览方式：Codex Chrome，使用客户当前登录状态只读采集
+备用浏览方式：主执行器发生非策略性技术故障时使用 web-access
+备用切换规则：预先授权 / 故障发生后再确认 / 禁用
 零结果处理：
 执行失败是否写入日报：
 固定安全边界：公开只读、低频串行、不互动、不发布、异常验证即停

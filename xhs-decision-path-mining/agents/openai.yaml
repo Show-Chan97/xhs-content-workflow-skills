@@ -1,0 +1,4 @@
+interface:
+  display_name: "小红书决策路径拆解"
+  short_description: "从批量笔记中拆解七段用户决策路径，并沉淀可追溯的内容元素库"
+  default_prompt: "使用 $xhs-decision-path-mining 分析这批同品类小红书笔记，按七段决策路径生成可追溯的内容元素库。"

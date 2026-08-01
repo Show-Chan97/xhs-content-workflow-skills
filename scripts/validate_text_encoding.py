@@ -12,6 +12,7 @@ SKILLS = (
     "content-commerce-meeting-execution",
     "xhs-base-daily-ops",
     "xhs-note-performance-diagnosis",
+    "xhs-decision-path-mining",
 )
 TEXT_SUFFIXES = {".md", ".yaml", ".yml", ".json", ".csv", ".py", ".sh", ".ps1"}
 TEXT_FILENAMES = {".editorconfig", ".gitattributes", ".gitignore"}

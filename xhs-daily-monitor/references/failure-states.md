@@ -4,9 +4,11 @@
 
 - `INTAKE`：正在采集信息。
 - `AWAITING_CONFIRMATION`：确认单已生成，尚未获准执行。
+- `AWAITING_FALLBACK_CONFIRMATION`：主执行器发生可切换的技术故障，等待用户决定是否启用 `web-access`。
 - `READY`：已确认，可开始执行。
 - `READ_ONLY_READY`：可采集，但飞书目标或授权不完整。
 - `BLOCKED`：关键条件缺失。
+- `BLOCKED_BY_POLICY`：收到明确策略拒绝，禁止通过备用执行器继续同一目标。
 - `PARTIAL_COMPLETE`：部分采集或写入完成，限制已披露。
 - `COMPLETE`：采集、追加和复核均完成。
 
@@ -14,7 +16,11 @@
 
 | 情况 | 行为 |
 |---|---|
-| Codex 自带 Chrome 插件无法控制本地 Chrome CDP | `BLOCKED`，不采集；说明原因并取得同意后才能切换执行器 |
+| Codex Chrome 主执行器发生可验证的非策略性技术故障 | 保留原始错误；按确认单的备用规则进入 `AWAITING_FALLBACK_CONFIRMATION` 或启用 `web-access` |
+| 明确的浏览器安全、网络、组织、域名或平台策略拒绝 | 进入 `BLOCKED_BY_POLICY`；不得切换 `web-access`、raw CDP 或其他替代通道 |
+| 错误含义不明 | 进入 `BLOCKED`，不推定为技术故障、不切换执行器 |
+| 用户未授权或拒绝备用执行器 | 进入 `BLOCKED`，保存进度并报告继续条件 |
+| `web-access` 未安装、无法完整读取或前置检查失败 | 进入 `BLOCKED`，不寻找第三个采集执行器 |
 | Chrome 未登录 | 请用户自行登录，不索取凭据 |
 | 登录墙、验证码、风控 | 立即停止，保存进度并报告位置 |
 | 单篇不可访问 | 跳过并记录，不反复刷新 |
