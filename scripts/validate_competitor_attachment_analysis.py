@@ -40,6 +40,7 @@ def run_analyzer(input_path: Path, output_dir: Path) -> Dict[str, Any]:
         env=environment,
         capture_output=True,
         text=True,
+        encoding="utf-8",
         check=False,
     )
     require(result.returncode == 0, f"analyzer failed: {result.stderr or result.stdout}")
@@ -214,6 +215,7 @@ def validate() -> bool:
             env=environment,
             capture_output=True,
             text=True,
+            encoding="utf-8",
             check=False,
         )
         require(overwrite_guard.returncode != 0, "existing derived outputs must not be overwritten by default")
@@ -231,6 +233,7 @@ def validate() -> bool:
             env=environment,
             capture_output=True,
             text=True,
+            encoding="utf-8",
             check=False,
         )
         require(overwrite_allowed.returncode == 0, "explicit --overwrite should replace derived outputs")
@@ -309,6 +312,7 @@ def validate() -> bool:
             env=environment,
             capture_output=True,
             text=True,
+            encoding="utf-8",
             check=False,
         )
         require(result.returncode == 0, f"XLSX analyzer failed: {result.stderr or result.stdout}")

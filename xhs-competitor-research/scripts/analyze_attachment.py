@@ -1477,6 +1477,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8")
     parser = build_parser()
     args = parser.parse_args()
     if not 0 < args.coverage_threshold <= 1:

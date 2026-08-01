@@ -41,6 +41,7 @@ jobs:
       - name: Install validation dependencies
         run: python -m pip install openpyxl
       - name: Validate text encoding
+        shell: bash
         run: |
           python scripts/validate_skill_structure.py
           python scripts/validate_text_encoding.py
